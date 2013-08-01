@@ -39,6 +39,12 @@ It is advisable that the string consists of 32 random characters.
 
 Open Regrader on your browser, and perform the installation steps as instructed.
 
+Todo
+----
+[*] Read zip files instead of individual text files for input
+[*] Fix automatic grading
+[*] Fix scoring system
+
 License
 -------
 
