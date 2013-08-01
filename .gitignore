@@ -9,3 +9,6 @@ secret-*
 moe/obj/*
 moe/run/*
 
+application/config/config.php
+application/config/database.php
+
