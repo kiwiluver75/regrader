@@ -1,3 +1,3 @@
 #!/bin/bash
 
-php index.php grader run
+/usr/lib/php5.4/bin/php index.php grader run

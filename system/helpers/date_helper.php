@@ -84,6 +84,7 @@ if ( ! function_exists('mdate'))
 {
 	function mdate($datestr = '', $time = '')
 	{
+		date_default_timezone_set('America/New_York');
 		if ($datestr == '')
 			return '';
 

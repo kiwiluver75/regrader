@@ -115,7 +115,7 @@ class Site extends MY_Controller
 			}
 
 			$grader_output = $this->build_grader();
-			if ( ! empty($grader_output))
+			if ( empty($grader_output) )
 			{
 				$data['heading'] = 'Error: cannot build grader engine';
 				$data['content'] = '<p>Please make sure that the web server has the permission to write to <b>' . getcwd() . '/moe</b>.<p>Build output:</p><pre>' . html_entity_decode($grader_output) . '</pre>';
@@ -442,6 +442,7 @@ class Site extends MY_Controller
 		sleep(2);
 		$this->load->helper('string');
 		$secret_name = 'secret-' . random_string('md5');
+		chdir('secret');
 		mkdir($secret_name);
 		chmod($secret_name, 0777);
 		$this->db->query("UPDATE `setting` SET `value`='{$secret_name}' WHERE `key`='{$name}_path'");
