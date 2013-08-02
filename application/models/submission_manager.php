@@ -37,7 +37,7 @@ class Submission_manager extends AR_Model
 	{
 		$this->db->select('submission.id AS id, user_id, submission.contest_id, submission.problem_id, language_id, submit_time, start_judge_time, end_judge_time, verdict,
 			               user.name AS user_name, contest.name AS contest_name, problem.name AS problem_name, language.name AS language_name, language.source_name AS language_source_name,
-			               alias AS problem_alias');
+			               alias AS problem_alias, language.extension AS language_extension');
 		$this->db->from('submission');
 		$this->db->join('contest', 'contest.id=contest_id');
 		$this->db->join('problem', 'problem.id=problem_id');
@@ -50,7 +50,15 @@ class Submission_manager extends AR_Model
 		if ($q->num_rows() == 0)
 			return FALSE;
 		$res = $q->row_array();
-		$res['source_code'] = file_get_contents($this->setting->get('submission_path') . '/' . $submission_id . '/source/' . $res['language_source_name']);
+		$strong = $res['language_source_name'];
+		$filpath = $this->setting->get('submission_path'). '/'. $submission_id . '/source/';
+		if($res['language_extension'] == 'java')
+		{
+			$cmdo = $filpath.'*.java';
+			$strong = shell_exec("echo -n $(basename $cmdo)");
+		}
+		$res['source_code'] = file_get_contents($this->setting->get('submission_path') . '/' . $submission_id . '/source/' . $strong);
+
 		if ($res['verdict'] > 0)
 			$res['compile_result'] = file_get_contents($this->setting->get('submission_path') . '/' . $submission_id . '/source/compile');
 		return $res;
@@ -137,7 +145,7 @@ class Submission_manager extends AR_Model
 
 		$config['upload_path'] = $submission_path . '/source';
 		$config['allowed_types'] = '*';
-		$config['file_name'] = $language['source_name'];
+//		$config['file_name'] = $language['source_name'];
 		$config['max_size']	= '100';
 		$config['overwrite'] = true;
 		

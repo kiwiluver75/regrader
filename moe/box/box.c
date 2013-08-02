@@ -707,7 +707,7 @@ get_syscall_args(struct syscall_args *a, int is_exit)
     err("FO: Forbidden %d-bit mode syscall", sys_type);
 #else
   if (sys_type != (exec_seen ? 32 : 64))
-    err("FO: Forbidden %d-bit mode syscall", sys_type);
+    err("FO:  oejfoeijo Forbidden %d-bit mode syscall", sys_type);
 #endif
 
   if (sys_type == 32)
@@ -1049,7 +1049,7 @@ boxkeeper(void)
 	}
       if (p != box_pid)
 	die("wait4: unknown pid %d exited!", p);
-      if (WIFEXITED(stat))
+      if (WIFEXITED(stat)) //was WIFExited(stat)
 	{
 	  box_pid = 0;
 	  final_stats(&rus);
@@ -1085,7 +1085,7 @@ boxkeeper(void)
 	  final_stats(&rus);
 	  err("SG: Caught fatal signal %d%s", WTERMSIG(stat), (syscall_count ? "" : " during startup"));
 	}
-      if (WIFSTOPPED(stat))
+      if (WIFSTOPPED(stat)) //WIFSTOPPED(stat)
 	{
 	  int sig = WSTOPSIG(stat);
 	  if (sig == SIGTRAP)

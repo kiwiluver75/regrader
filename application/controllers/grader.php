@@ -159,8 +159,16 @@ class Grader extends CI_Controller
 	private function compile_submission($submission, $language)
 	{
 		$submission_path = $this->setting->get('submission_path') . '/' . $submission['id'];
-
+		if($language['name'] != "Java")
+		{
 		$code = file_get_contents($submission_path . '/source/' . $language['source_name']);
+		}
+		else
+		{
+			$cojs = $submission_path.'/source/*.java';
+			$stoj = shell_exec("echo -n $(basename $cojs)");
+			$code = file_get_contents($submission_path. '/source/' . $stoj);
+		}
 		$filter_result = $this->check_forbidden_keywords($code, $language);
 		
 		if (empty($filter_result))
@@ -238,27 +246,29 @@ class Grader extends CI_Controller
 			if ( ! is_dir($out_path))
 			{
 				mkdir($out_path);
-				chmod($out_path, 0777);
+				chmod($out_path, 777);
 			}
 
 			$run_cmd  = $grader_path . '/box';
 
+			$src = 'source';
+
 			if ($language['limit_memory'])
-				$run_cmd .= ' -m' . (1024 * $problem['memory_limit']);
+				$run_cmd .= ' -m ' . (1024 * $problem['memory_limit']);
 			
 			if ($language['limit_syscall'])
-				$run_cmd .= ' -f -a3';
+				$run_cmd .= ' -a 3';
 
-			$run_cmd .= ' -w' . $problem['time_limit'];
-			$run_cmd .= ' -i' . $tc_path . '/' . $v['input'] ;
-			$run_cmd .= ' -o' . $out_path . '/' . $v['output'] ;
-			$run_cmd .= ' -r' . $out_path . '/error';
-			$run_cmd .= ' -M' . $out_path . '/result';
+			$run_cmd .= ' -w ' . $problem['time_limit'];
+			$run_cmd .= ' -i ' . $tc_path . '/' . $v['input'] ;
+			$run_cmd .= ' -o ' . $out_path . '/' . $v['output'] ;
+			$run_cmd .= ' -r ' . $out_path . '/error';
+			$run_cmd .= ' -M ' . $out_path . '/result';
 			$run_cmd .= ' -- ' . str_replace(array('[PATH]', '[TIME_LIMIT]', '[MEMORY_LIMIT]'),
-				                             array($submission_path . '/source', $problem['time_limit'], $problem['memory_limit']),
+				                             array($submission_path . '/' . $src, $problem['time_limit'], $problem['memory_limit']),
 				                             $language['run_cmd'])
 			                   . ' 2> /dev/null';
-
+			echo $run_cmd;
 			exec($run_cmd, $output, $retval);
 
 			// reads the execution results
@@ -306,8 +316,17 @@ class Grader extends CI_Controller
 			unlink($out_path . '/' . $v['output']);
 			rmdir($out_path);
 		}
+		if($language['name'] == "Java")
+		{
+			$jojo = $submission_path.'/source/*.class';
+			$smallstr = shell_exec("echo -n $(basename $jojo)");
+			unlink($submission_path.'/source/'.$smallstr);
+		}
+		else{
 
 		unlink($submission_path . '/source/' . $language['exe_name']);
+		}
+
 		return $overall_verdict;
 	}
 

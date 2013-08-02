@@ -1,0 +1,186 @@
+[2013-08-01 13:29:53] Grader started.
+[2013-08-01 13:29:53] Waiting for new submission...
+[2013-08-01 13:29:59] Found new submission!
+                      Submission     : 4
+                      User           : puneeth (Puneeth Uttla)
+                      Contest        : 1 (Test Contest)
+                      Problem        : add (Add)
+                      Language       : C++
+[2013-08-01 13:30:00] Compile status : 0
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Warning</p>
+<p>Message:  file_get_contents(secret-f370b55ecc806a1cb033a793509e50b6/4/judging/2/result): failed to open stream: No such file or directory</p>
+<p>Filename: controllers/grader.php</p>
+<p>Line Number: 274</p>
+
+</div><div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined index: time-wall</p>
+<p>Filename: controllers/grader.php</p>
+<p>Line Number: 303</p>
+
+</div><div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined index: mem</p>
+<p>Filename: controllers/grader.php</p>
+<p>Line Number: 304</p>
+
+</div>[2013-08-01 13:30:00] TC 2 verdict   : Accepted (0 ms, 0 KB)
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Warning</p>
+<p>Message:  unlink(secret-f370b55ecc806a1cb033a793509e50b6/4/judging/2/error): No such file or directory</p>
+<p>Filename: controllers/grader.php</p>
+<p>Line Number: 312</p>
+
+</div><div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Warning</p>
+<p>Message:  unlink(secret-f370b55ecc806a1cb033a793509e50b6/4/judging/2/result): No such file or directory</p>
+<p>Filename: controllers/grader.php</p>
+<p>Line Number: 313</p>
+
+</div><div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Warning</p>
+<p>Message:  unlink(secret-f370b55ecc806a1cb033a793509e50b6/4/judging/2/example.out): No such file or directory</p>
+<p>Filename: controllers/grader.php</p>
+<p>Line Number: 314</p>
+
+</div>[2013-08-01 13:30:00] Final verdict  : Accepted
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Warning</p>
+<p>Message:  file_get_contents(secret-f370b55ecc806a1cb033a793509e50b6/3/source/Main.java
+): failed to open stream: No such file or directory</p>
+<p>Filename: models/submission_manager.php</p>
+<p>Line Number: 62</p>
+
+</div><div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Warning</p>
+<p>Message:  file_get_contents(secret-f370b55ecc806a1cb033a793509e50b6/3/source/Main.java
+): failed to open stream: No such file or directory</p>
+<p>Filename: models/submission_manager.php</p>
+<p>Line Number: 62</p>
+
+</div><div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Warning</p>
+<p>Message:  file_get_contents(secret-f370b55ecc806a1cb033a793509e50b6/3/source/Main.java
+): failed to open stream: No such file or directory</p>
+<p>Filename: models/submission_manager.php</p>
+<p>Line Number: 62</p>
+
+</div><div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Warning</p>
+<p>Message:  file_get_contents(secret-f370b55ecc806a1cb033a793509e50b6/5/source/Main.java
+): failed to open stream: No such file or directory</p>
+<p>Filename: models/submission_manager.php</p>
+<p>Line Number: 62</p>
+
+</div><div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Warning</p>
+<p>Message:  file_get_contents(secret-f370b55ecc806a1cb033a793509e50b6/5/source/Main.java
+): failed to open stream: No such file or directory</p>
+<p>Filename: models/submission_manager.php</p>
+<p>Line Number: 62</p>
+
+</div><div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Warning</p>
+<p>Message:  file_get_contents(secret-f370b55ecc806a1cb033a793509e50b6/5/source/Main.java
+): failed to open stream: No such file or directory</p>
+<p>Filename: models/submission_manager.php</p>
+<p>Line Number: 62</p>
+
+</div><div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Warning</p>
+<p>Message:  file_get_contents(secret-f370b55ecc806a1cb033a793509e50b6/6/source/Main.java
+): failed to open stream: No such file or directory</p>
+<p>Filename: models/submission_manager.php</p>
+<p>Line Number: 62</p>
+
+</div><div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Warning</p>
+<p>Message:  file_get_contents(secret-f370b55ecc806a1cb033a793509e50b6/6/source/Main.java
+): failed to open stream: No such file or directory</p>
+<p>Filename: models/submission_manager.php</p>
+<p>Line Number: 62</p>
+
+</div><div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Warning</p>
+<p>Message:  file_get_contents(secret-f370b55ecc806a1cb033a793509e50b6/6/source/Main.java
+): failed to open stream: No such file or directory</p>
+<p>Filename: models/submission_manager.php</p>
+<p>Line Number: 62</p>
+
+</div><div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Warning</p>
+<p>Message:  file_get_contents(secret-f370b55ecc806a1cb033a793509e50b6/8/source/add.java
+): failed to open stream: No such file or directory</p>
+<p>Filename: models/submission_manager.php</p>
+<p>Line Number: 62</p>
+
+</div><div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Warning</p>
+<p>Message:  file_get_contents(secret-f370b55ecc806a1cb033a793509e50b6/8/source/add.java
+): failed to open stream: No such file or directory</p>
+<p>Filename: models/submission_manager.php</p>
+<p>Line Number: 62</p>
+
+</div><div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Warning</p>
+<p>Message:  file_get_contents(secret-f370b55ecc806a1cb033a793509e50b6/8/source/add.java
+): failed to open stream: No such file or directory</p>
+<p>Filename: models/submission_manager.php</p>
+<p>Line Number: 62</p>
+
+</div>[2013-08-01 13:30:00] Waiting for new submission...

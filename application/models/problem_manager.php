@@ -110,6 +110,8 @@ class Problem_manager extends AR_Model
 		$testcase_path = $this->setting->get('testcase_path') . '/' . $args['problem_id'];
 		
 		$this->load->library('upload');
+		$this->load->library('unzip');
+
 		$config['upload_path'] = $testcase_path;
 		$config['allowed_types'] = '*';
 		$config['file_name'] = $args['input'];
@@ -117,28 +119,43 @@ class Problem_manager extends AR_Model
 
 		$this->upload->initialize($config);
 		$this->upload->do_upload('new_input');
+		$this->unzip->extract($testcase_path . '/' . $args['input']);
 
 		if ($this->upload->display_errors() != '')
 			return $this->upload->display_errors();
 
 		$config['upload_path'] = $testcase_path;
-		$config['allowed_types'] = '*';
+		$config['allowed_types'] = 'zip';
 		$config['file_name'] = $args['output'];
 		$config['remove_spaces'] = FALSE;
 
 		$this->upload->initialize($config);
 		$this->upload->do_upload('new_output');
+		$this->unzip->extract($testcase_path . '/' . $args['output']);
 
 		if ($this->upload->display_errors() != '')
 			return $this->upload->display_errors();
 
-		$this->db->set('problem_id', $args['problem_id']);
-		$this->db->set('input', $args['input']);
-		$this->db->set('input_size', filesize($testcase_path . '/' . $args['input']));
-		$this->db->set('output', $args['output']);
-		$this->db->set('output_size', filesize($testcase_path . '/' . $args['output']));
-		$this->db->insert('testcase');
+		
+		list($filepartin, $wastein, $zipin) = explode('.', $args['input']);
+		list($filepartout, $wasteout, $zipout) = explode('.', $args['output']);
+
+
+		for($i = 1; $i <= 10; $i++)
+		
+		{
+			$fileinputname = $filepartin . "." . $i . ".in";
+			$fileoutputname = $filepartout . ".". $i . ".out";
+
+			$this->db->set('problem_id', $args['problem_id']);
+			$this->db->set('input', $fileinputname);
+			$this->db->set('input_size', filesize($testcase_path . '/' . $fileinputname));
+			$this->db->set('output', $fileoutputname);
+			$this->db->set('output_size', filesize($testcase_path . '/' . $fileoutputname));
+			$this->db->insert('testcase');
+		}
 		return '';
+
 	}
 
 	/**

@@ -34,7 +34,7 @@ class CI_Upload {
 	public $file_temp				= "";
 	public $file_name				= "";
 	public $orig_name				= "";
-	public $file_type				= "";
+	public $file_type				= "zip";
 	public $file_size				= "";
 	public $file_ext				= "";
 	public $upload_path				= "";
