@@ -129,9 +129,11 @@ class Problem_manager extends AR_Model
 		$config['file_name'] = $args['output'];
 		$config['remove_spaces'] = FALSE;
 
+		$joot = preg_replace('/_/','',$args['output']);
+
 		$this->upload->initialize($config);
 		$this->upload->do_upload('new_output');
-		$this->unzip->extract($testcase_path . '/' . $args['output']);
+		$this->unzip->extract($testcase_path . '/' . $joot);
 
 		if ($this->upload->display_errors() != '')
 			return $this->upload->display_errors();

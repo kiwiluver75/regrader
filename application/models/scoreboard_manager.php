@@ -66,16 +66,14 @@ class Scoreboard_manager extends CI_Model
 			$res['is_accepted'] = $score['is_accepted'];
 
 			// all submissions after the first AC verdict will be ignored
-			if ($res['is_accepted'] == 1)
-				return;
 			$is_present = TRUE;
 		}
 
 		$res['submission_cnt']++;
-		$res['time_penalty'] = ceil((strtotime($submission['submit_time']) - strtotime($contest['start_time'])) / 60);
+		$res['time_penalty'] = floor(33.3333*$submission['correct']);
 
 		// an AC submission
-		if ($submission['verdict'] == 2)
+		if ($submission['verdict'] == 2 || $submission['verdict'] == 3 )
 			$res['is_accepted'] = 1;
 
 		if ($is_present)

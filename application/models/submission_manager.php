@@ -35,7 +35,7 @@ class Submission_manager extends AR_Model
 	 */
 	public function get_row($submission_id)
 	{
-		$this->db->select('submission.id AS id, user_id, submission.contest_id, submission.problem_id, language_id, submit_time, start_judge_time, end_judge_time, verdict,
+		$this->db->select('submission.id AS id, user_id, submission.contest_id, submission.problem_id, language_id, submit_time, start_judge_time, end_judge_time, verdict, correct,
 			               user.name AS user_name, contest.name AS contest_name, problem.name AS problem_name, language.name AS language_name, language.source_name AS language_source_name,
 			               alias AS problem_alias, language.extension AS language_extension');
 		$this->db->from('submission');
@@ -52,9 +52,9 @@ class Submission_manager extends AR_Model
 		$res = $q->row_array();
 		$strong = $res['language_source_name'];
 		$filpath = $this->setting->get('submission_path'). '/'. $submission_id . '/source/';
-		if($res['language_extension'] == 'java')
+		if($res['language_extension'] == 'java' || $res['language_extension'] == 'cpp')
 		{
-			$cmdo = $filpath.'*.java';
+			$cmdo = $filpath.'*.'.$res['language_extension'];
 			$strong = shell_exec("echo -n $(basename $cmdo)");
 		}
 		$res['source_code'] = file_get_contents($this->setting->get('submission_path') . '/' . $submission_id . '/source/' . $strong);
@@ -84,7 +84,7 @@ class Submission_manager extends AR_Model
 	 */
 	public function get_rows($criteria = array(), $conditions = array())
 	{
-		$this->db->select('submission.id AS id, user_id, submission.contest_id, submission.problem_id, language_id, submit_time, start_judge_time, end_judge_time, verdict,
+		$this->db->select('submission.id AS id, user_id, submission.contest_id, submission.problem_id, language_id, submit_time, start_judge_time, end_judge_time, verdict, correct,
 			               user.name AS user_name, contest.name AS contest_name, problem.name AS problem_name, language.name AS language_name,
 			               alias AS problem_alias');
 		$this->db->join('contest', 'contest.id=contest_id');

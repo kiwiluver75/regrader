@@ -129,7 +129,7 @@ class Grader extends CI_Controller
 
 		// a request to ignore this submission
 		if ($prev_verdict == 99)
-			$this->set_submission_verdict($submission, 99, $prev_verdict);
+			$this->set_submission_verdict($submission, 99, $prev_verdict, 0);
 		else
 		{
 			$this->db->query('UPDATE submission SET start_judge_time="' . date('Y-m-d H:i:s') . '" WHERE id=' . $submission['id']); 
@@ -137,11 +137,19 @@ class Grader extends CI_Controller
 
 			// if there is no compile error, run the solution
 			if ($compile_status == 0)
-				$verdict = $this->run_submission($submission, $problem, $language);
+			{
+				$full_verdict = $this->run_submission($submission, $problem, $language);
+				$fullarray = explode(".", $full_verdict);
+				$verdict = intval($fullarray[0]);
+				$correct = intval($fullarray[1]);
+			}
 			else
+			{
 				$verdict = 1;
+				$correct = 0;
+			}
 
-			$this->set_submission_verdict($submission, $verdict, $prev_verdict);
+			$this->set_submission_verdict($submission, $verdict, $prev_verdict, $correct);
 			$this->db->query('UPDATE submission SET end_judge_time="' . date('Y-m-d H:i:s') . '" WHERE id=' . $submission['id']); 
 		}
 
@@ -158,17 +166,13 @@ class Grader extends CI_Controller
 	 */
 	private function compile_submission($submission, $language)
 	{
-		$submission_path = $this->setting->get('submission_path') . '/' . $submission['id'];
-		if($language['name'] != "Java")
-		{
-		$code = file_get_contents($submission_path . '/source/' . $language['source_name']);
-		}
-		else
-		{
-			$cojs = $submission_path.'/source/*.java';
-			$stoj = shell_exec("echo -n $(basename $cojs)");
-			$code = file_get_contents($submission_path. '/source/' . $stoj);
-		}
+		$submission_path = $this->setting->get('submission_path') . '/' . $submission['id'] . '/';
+		if($language['name'] == "Java") $cojs = $submission_path.'/source/*.java';
+		else if ($language['name'] == "C") $cojs = $submission_path.'source/*.c';
+		else $cojs = $submission_path.'source/*.cpp';
+		
+		$stoj = shell_exec("echo -n $(basename $cojs)");
+		$code = file_get_contents($submission_path. '/source/' . $stoj);
 		$filter_result = $this->check_forbidden_keywords($code, $language);
 		
 		if (empty($filter_result))
@@ -200,9 +204,11 @@ class Grader extends CI_Controller
 	 * @param int $verdict The new verdict for this submission.
 	 * @param int $prev_verdict The previous verdict of this submission.
 	 */
-	private function set_submission_verdict($submission, $verdict, $prev_verdict)
+	private function set_submission_verdict($submission, $verdict, $prev_verdict, $correct)
 	{
+
 		$this->db->query('UPDATE submission SET verdict=' . $verdict . ' WHERE id=' . $submission['id']);
+		$this->db->query('UPDATE submission SET correct=' . $correct . ' WHERE id=' . $submission['id']);
 
 		$this->logger->log('grader', 'Final verdict  : ' . $this->lang->line('verdict_' . $verdict));
 
@@ -233,6 +239,7 @@ class Grader extends CI_Controller
 	{
 		$testcases = $this->get_testcases($submission['problem_id']);
 		$overall_verdict = 2; // Accepted
+		$overall_correct = 0;
 
 		$grader_path = 'moe/obj/box';
 		$submission_path = $this->setting->get('submission_path') . '/' . $submission['id'];
@@ -268,7 +275,6 @@ class Grader extends CI_Controller
 				                             array($submission_path . '/' . $src, $problem['time_limit'], $problem['memory_limit']),
 				                             $language['run_cmd'])
 			                   . ' 2> /dev/null';
-			echo $run_cmd;
 			exec($run_cmd, $output, $retval);
 
 			// reads the execution results
@@ -280,6 +286,7 @@ class Grader extends CI_Controller
 			}
 
 			$verdict = 2; // Accepted
+			$correct = 0;
 			if (@$run_result['status'] == 'SG' && @$run_result['exitsig'] == 11)
 				$verdict = 4; // Runtime Error
 			else if (@$run_result['status'] == 'TO')
@@ -297,7 +304,10 @@ class Grader extends CI_Controller
 
 				$diff = file_get_contents($out_path . '/diff');
 				if ( ! empty($diff))
+				{
 					$verdict = 3; // Wrong Answer
+				}
+				else $correct = 1;
 
 				unlink($out_path . '/diff');
 			}
@@ -307,6 +317,8 @@ class Grader extends CI_Controller
 			$this->db->query('INSERT INTO judging(submission_id, testcase_id, time, memory, verdict) VALUES(' . $submission['id'] . ', ' . $v['id'] . ', ' . $run_result_time . ', ' . $run_result_memory . ', ' . $verdict . ')');
 
 			$this->logger->log('grader', 'TC ' . $v['id'] . ' verdict   : ' . $this->lang->line('verdict_' . $verdict) . ' (' . $run_result_time . ' ms, ' . $run_result_memory . ' KB)');
+
+			$overall_correct = $overall_correct + $correct;
 
 			if ($overall_verdict < $verdict)
 				$overall_verdict = $verdict;
@@ -326,8 +338,10 @@ class Grader extends CI_Controller
 
 		unlink($submission_path . '/source/' . $language['exe_name']);
 		}
+		$final = $overall_verdict.".".$overall_correct;
+		echo $final;
 
-		return $overall_verdict;
+		return $final;
 	}
 
 	/**
@@ -442,7 +456,7 @@ class Grader extends CI_Controller
 	 */
 	private function get_language($language_id)
 	{
-		$q = $this->db->query('SELECT id, name, source_name, exe_name, compile_cmd, run_cmd, limit_memory, limit_syscall, forbidden_keywords FROM language WHERE id=' . $language_id . ' LIMIT 1');
+		$q = $this->db->query('SELECT id, name, extension, source_name, exe_name, compile_cmd, run_cmd, limit_memory, limit_syscall, forbidden_keywords FROM language WHERE id=' . $language_id . ' LIMIT 1');
 		return $q->row_array();
 	}
 }
