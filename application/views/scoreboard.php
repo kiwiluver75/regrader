@@ -64,7 +64,7 @@
 									$verdict_class = ' scoreboard-not-accepted-td';
 								?>
 
-								<td class="scoreboard-problem-td<?php echo $verdict_class; ?>"><?php echo $w['submission_cnt'] . ' / ' . ($w['is_accepted'] == 1 ? $w['time_penalty'] : '-'); ?></td>
+								<td class="scoreboard-problem-td<?php echo $verdict_class; ?>"><?php echo $w['submission_cnt'] . ' / ' . ($w['is_accepted'] > 0  ? $w['time_penalty'] : '-'); ?></td>
 								
 							<?php endforeach; ?>
 							</tr>

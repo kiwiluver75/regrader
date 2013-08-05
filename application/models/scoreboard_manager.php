@@ -66,6 +66,7 @@ class Scoreboard_manager extends CI_Model
 			$res['is_accepted'] = $score['is_accepted'];
 
 			// all submissions after the first AC verdict will be ignored
+			if($res['is_accepted'] == 1){ return; }
 			$is_present = TRUE;
 		}
 
@@ -73,8 +74,12 @@ class Scoreboard_manager extends CI_Model
 		$res['time_penalty'] = floor(33.3333*$submission['correct']);
 
 		// an AC submission
-		if ($submission['verdict'] == 2 || $submission['verdict'] == 3 )
+		if ($submission['verdict'] == 2)
 			$res['is_accepted'] = 1;
+		if($submission['verdict'] == 3)
+			$res['is_accepted'] = 2;
+
+
 
 		if ($is_present)
 		{
@@ -202,11 +207,11 @@ class Scoreboard_manager extends CI_Model
 				$res['scores'][$v['user_id']]['score'][$v['problem_id']]['time_penalty'] = $v['time_penalty'];
 				$res['scores'][$v['user_id']]['score'][$v['problem_id']]['is_accepted'] = $v['is_accepted'];
 
-				$res['scores'][$v['user_id']]['total_accepted'] += $v['is_accepted'];
+				if($v['is_accepted'] == 1) $res['scores'][$v['user_id']]['total_accepted'] += $v['is_accepted'];
 
-				if ($v['is_accepted'])
+				if ($v['is_accepted'] > 0)
 				{
-					$res['scores'][$v['user_id']]['total_penalty'] += $v['time_penalty'] + 20 * ($v['submission_cnt'] - 1);
+					$res['scores'][$v['user_id']]['total_penalty'] += $v['time_penalty']; 
 				
 					if ($res['scores'][$v['user_id']]['last_submission'] < $v['time_penalty'])
 						$res['scores'][$v['user_id']]['last_submission'] = $v['time_penalty'];

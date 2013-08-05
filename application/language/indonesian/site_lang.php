@@ -5,6 +5,7 @@ $lang['please_login'] = 'Silakan masuk.';
 $lang['username'] = 'Username';
 $lang['password'] = 'Password';
 $lang['login'] = 'Masuk';
+$lang['register'] = 'Register';
 $lang['wrong_credentials'] = 'Username atau password salah.';
 
 /* End of file site_lang.php */

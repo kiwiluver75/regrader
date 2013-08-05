@@ -359,7 +359,6 @@ class Grader extends CI_Controller
 	{
 		$lines = explode("\n", $code);
 		$lines_cnt = count($lines);
-
 		$forbidden_keywords = explode("\n", $language['forbidden_keywords']);
 		
 		$error = '';
@@ -369,7 +368,6 @@ class Grader extends CI_Controller
 				if ( ! empty($v) && preg_match('/\b' . $v . '\b/', $lines[$i]))
 					$error .= $language['source_name'] . ':' . ($i+1) . ': forbidden keyword `' . $v . "'\n";
 		}
-
 		return $error;
 	}
 
